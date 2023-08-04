@@ -1,13 +1,16 @@
 package com.fdmgroup.springauth.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,6 +20,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -36,9 +40,37 @@ public class ApplicationUser implements UserDetails{
 			inverseJoinColumns= {@JoinColumn(name="role_id")}
 			)
 	private Set<Role> authorities;
+	@OneToMany(cascade= {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy="user")
+	private List<Blog> blogs = new ArrayList<>();
+	@OneToMany(cascade= {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy="user")
+	private List<Comment> comments = new ArrayList<>();
 	
 	
 	
+	public List<Blog> getBlogs() {
+		return blogs;
+	}
+
+
+
+	public void setBlogs(List<Blog> blogs) {
+		this.blogs = blogs;
+	}
+
+
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+
+
 	public ApplicationUser() {
 		super();
 		this.authorities = new HashSet<Role>();
