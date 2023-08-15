@@ -2,6 +2,7 @@ package com.fdmgroup.springauth.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -20,6 +21,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.fdmgroup.springauth.utils.RSAKeyProperties;
 import com.nimbusds.jose.jwk.JWK;
@@ -59,7 +61,9 @@ public class SecurityConfiguration {
 
 		http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> {
 			auth.requestMatchers("/auth/register").permitAll();
-			auth.requestMatchers("/auth/login").permitAll();
+			auth.requestMatchers("/auth/login/**").permitAll();
+			auth.requestMatchers(HttpMethod.GET, "/api/v1/blogs").permitAll();
+			auth.requestMatchers(HttpMethod.GET, "/api/v1/users").permitAll();
 			auth.requestMatchers(PathRequest.toH2Console()).permitAll();
 			auth.requestMatchers("/admin/**").hasRole("ADMIN");
 			auth.requestMatchers("/user/**").hasAnyRole("ADMIN", "USER");
@@ -99,4 +103,5 @@ public class SecurityConfiguration {
 		jwtConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
 		return jwtConverter;
 	}
+	
 }
