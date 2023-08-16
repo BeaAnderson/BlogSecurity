@@ -40,6 +40,7 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+//new
 @EnableWebSecurity
 public class SecurityConfiguration {
 	
@@ -69,7 +70,7 @@ public class SecurityConfiguration {
 			auth.requestMatchers("/auth/register").permitAll();
 			auth.requestMatchers("/auth/login/**").permitAll();
 			auth.requestMatchers(HttpMethod.GET, "/api/v1/blogs/**").permitAll();
-			auth.requestMatchers(HttpMethod.GET, "/api/v1/users").permitAll();
+			//auth.requestMatchers(HttpMethod.GET, "/api/v1/users").permitAll();
 			auth.requestMatchers(PathRequest.toH2Console()).permitAll();
 			auth.requestMatchers("/admin/**").hasRole("ADMIN");
 			auth.requestMatchers("/user/**").hasAnyRole("ADMIN", "USER");
