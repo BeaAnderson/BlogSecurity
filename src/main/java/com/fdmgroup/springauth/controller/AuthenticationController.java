@@ -14,7 +14,7 @@ import com.fdmgroup.springauth.service.AuthenticationService;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin("*")
+@CrossOrigin(origins="*")
 public class AuthenticationController {
 	
 	@Autowired
