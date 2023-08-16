@@ -21,7 +21,9 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.fdmgroup.springauth.utils.RSAKeyProperties;
 import com.nimbusds.jose.jwk.JWK;
@@ -32,9 +34,14 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
+import java.util.Arrays;
+
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+//new
+@EnableWebSecurity
 public class SecurityConfiguration {
 	
 	private final RSAKeyProperties keys;
@@ -62,8 +69,8 @@ public class SecurityConfiguration {
 		http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> {
 			auth.requestMatchers("/auth/register").permitAll();
 			auth.requestMatchers("/auth/login/**").permitAll();
-			auth.requestMatchers(HttpMethod.GET, "/api/v1/blogs").permitAll();
-			auth.requestMatchers(HttpMethod.GET, "/api/v1/users").permitAll();
+			auth.requestMatchers(HttpMethod.GET, "/api/v1/blogs/**").permitAll();
+			//auth.requestMatchers(HttpMethod.GET, "/api/v1/users").permitAll();
 			auth.requestMatchers(PathRequest.toH2Console()).permitAll();
 			auth.requestMatchers("/admin/**").hasRole("ADMIN");
 			auth.requestMatchers("/user/**").hasAnyRole("ADMIN", "USER");
@@ -78,6 +85,9 @@ public class SecurityConfiguration {
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 		http.headers().frameOptions().disable();
+		
+		//new
+		http.cors(withDefaults());
 
 		return http.build();
 	}
@@ -102,6 +112,17 @@ public class SecurityConfiguration {
 		JwtAuthenticationConverter jwtConverter = new JwtAuthenticationConverter();
 		jwtConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
 		return jwtConverter;
+	}
+	
+	//new
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/"));
+		configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
 	}
 	
 }

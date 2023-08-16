@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.fdmgroup.springauth.model.Role;
 import com.fdmgroup.springauth.model.ApplicationUser;
+import com.fdmgroup.springauth.model.Blog;
+import com.fdmgroup.springauth.repository.BlogRepository;
 import com.fdmgroup.springauth.repository.RoleRepository;
 import com.fdmgroup.springauth.repository.UserRepository;
 
@@ -23,7 +25,7 @@ public class SpringauthApplication {
 	
 	
 	@Bean
-	CommandLineRunner run(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+	CommandLineRunner run(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, BlogRepository blogRepository) {
 		return args -> {
 			if(roleRepository.findByAuthority("ADMIN").isPresent()) return;
 			Role adminRole = roleRepository.save(new Role("ADMIN"));
@@ -34,7 +36,10 @@ public class SpringauthApplication {
 			
 			ApplicationUser admin = new ApplicationUser(1, "admin", passwordEncoder.encode("password"), roles);
 			
+			Blog blog = new Blog(1, "blog title", "blog body");
+			
 			userRepository.save(admin);
+			blogRepository.save(blog);
 		};
 	}
 }
