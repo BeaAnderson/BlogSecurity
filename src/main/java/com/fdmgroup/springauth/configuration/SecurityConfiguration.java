@@ -39,6 +39,8 @@ import java.util.Arrays;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import static org.springframework.security.config.Customizer.withDefaults;
 
+//blog
+
 @Configuration
 //new
 @EnableWebSecurity

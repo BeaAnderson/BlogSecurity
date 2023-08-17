@@ -4,6 +4,7 @@ import com.fdmgroup.springauth.model.ApplicationUser;
 
 
 public class NewBlogDTO {
+	
 	private String title;
 	private String body;
 	private ApplicationUser user;

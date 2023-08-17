@@ -12,6 +12,8 @@ import com.fdmgroup.springauth.model.LoginResponseDTO;
 import com.fdmgroup.springauth.model.RegistrationDTO;
 import com.fdmgroup.springauth.service.AuthenticationService;
 
+//blog
+
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin(origins="*")
