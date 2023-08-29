@@ -37,9 +37,17 @@ public class SpringauthApplication {
 			ApplicationUser admin = new ApplicationUser(1, "admin", passwordEncoder.encode("password"), roles);
 			
 			Blog blog = new Blog(1, "blog title", "blog body");
+			Blog blog2 = new Blog(2, "blog 2 title", "blog body");
+			Blog blog3 = new Blog(3, "blog 3 title", "blog body");
+			Blog blog4 = new Blog(4, "blog 4 title", "blog body");
+			Blog blog5 = new Blog(5, "blog 5 title", "blog body");
 			
 			userRepository.save(admin);
 			blogRepository.save(blog);
+			blogRepository.save(blog2);
+			blogRepository.save(blog3);
+			blogRepository.save(blog4);
+			blogRepository.save(blog5);
 		};
 	}
 }
