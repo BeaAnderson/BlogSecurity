@@ -1,6 +1,7 @@
 package com.fdmgroup.springauth.model;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +27,7 @@ public class Blog {
 	@SequenceGenerator(name="bloggen", sequenceName="blog_id_seq", allocationSize=1)
 	private long id;
 	private String title;
+	@Column(length=2000)
 	private String body;
 	@ManyToOne(cascade= {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinTable(name = "blog_user",
@@ -35,11 +37,12 @@ public class Blog {
 	@OneToMany(cascade= {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy="blog")
 	private List<Comment> comments = new ArrayList<>();
 	
-	public Blog(long id, String title, String body) {
+	public Blog(long id, String title, String body, ApplicationUser user) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.body = body;
+		this.user = user;
 	}
 	
 	public Blog() {
