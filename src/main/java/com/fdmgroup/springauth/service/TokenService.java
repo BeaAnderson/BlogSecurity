@@ -10,11 +10,17 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
+
+import com.fdmgroup.springauth.model.ApplicationUser;
+import com.fdmgroup.springauth.repository.UserRepository;
+
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 
 @Service
 public class TokenService {
-
+	@Autowired
+	private UserRepository userRepo;
+	
 	@Autowired
 	private JwtEncoder jwtEncoder;
 	
@@ -22,6 +28,8 @@ public class TokenService {
 	private JwtDecoder jwtDecoder;
 	
 	public String generateJWT(Authentication auth){
+		
+		//create string of user id
 		
 		Instant now = Instant.now();
 		

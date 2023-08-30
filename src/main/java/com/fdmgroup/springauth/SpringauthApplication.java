@@ -29,12 +29,16 @@ public class SpringauthApplication {
 		return args -> {
 			if(roleRepository.findByAuthority("ADMIN").isPresent()) return;
 			Role adminRole = roleRepository.save(new Role("ADMIN"));
-			roleRepository.save(new Role("USER"));
+			Role userRole = roleRepository.save(new Role("USER"));
 			
 			Set<Role> roles = new HashSet<>();
 			roles.add(adminRole);
 			
+			Set<Role> roles2 = new HashSet<>();
+			roles2.add(userRole);
+			
 			ApplicationUser admin = new ApplicationUser(1, "admin", passwordEncoder.encode("password"), roles);
+			ApplicationUser user = new ApplicationUser(2, "bee", passwordEncoder.encode("password"), roles2);
 			
 			Blog blog = new Blog(1, "blog title", """
 					Vivamus congue ac enim quis aliquam. Sed dui metus, rhoncus vitae magna eu, convallis feugiat ante. Duis lobortis est libero, et tempus ante efficitur ut. Donec ultrices dignissim est, at auctor nibh varius quis. Vestibulum non risus sed nisi blandit semper venenatis ac dui. Etiam ut magna pellentesque, euismod augue a, malesuada ipsum. Etiam vel nisi est. Proin malesuada felis dolor, a tincidunt diam fringilla porta. Nunc sed elit urna. Sed nisl tortor, malesuada sed nisi at, ultricies accumsan magna. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent pharetra odio id mauris dignissim, ac pulvinar mauris placerat.
@@ -49,6 +53,7 @@ public class SpringauthApplication {
 			Blog blog5 = new Blog(5, "blog 5 title", "blog body", admin);
 			
 			userRepository.save(admin);
+			userRepository.save(user);
 			blogRepository.save(blog);
 			blogRepository.save(blog2);
 			blogRepository.save(blog3);
