@@ -30,6 +30,11 @@ public class TokenService {
 	public String generateJWT(Authentication auth){
 		
 		//create string of user id
+		ApplicationUser user = userRepo.findByUsername(auth.getName()).get();
+		
+		int id = user.getUserId();
+		
+		String idToString = Integer.toString(id);
 		
 		Instant now = Instant.now();
 		
@@ -40,7 +45,7 @@ public class TokenService {
 		JwtClaimsSet claims = JwtClaimsSet.builder()
 				.issuer("self")
 				.issuedAt(now)
-				.subject(auth.getName())
+				.subject(idToString)
 				.claim("roles", scope)
 				.build();
 		
