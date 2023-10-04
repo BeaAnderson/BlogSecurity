@@ -36,15 +36,25 @@ public class Blog {
 	private ApplicationUser user;
 	@OneToMany(cascade= {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy="blog")
 	private List<Comment> comments = new ArrayList<>();
+	private String image;
 	
-	public Blog(long id, String title, String body, ApplicationUser user) {
+	public Blog(long id, String title, String body, ApplicationUser user, String image) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.body = body;
 		this.user = user;
+		this.image = image;
 	}
 	
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	public Blog() {
 	}
 
